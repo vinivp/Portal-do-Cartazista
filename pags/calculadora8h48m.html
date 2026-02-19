@@ -3,47 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
-    <link rel="apple-touch-icon" href="/imagem/LogoApp.png">
-    <link rel="icon" type="image/png" href="/imagem/LogoApp.png">
-    <title>Calculadora Preditiva - Loja 62</title>
+    <title>Simulador 8:48 - Loja 62</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        body { background: url('/imagem/FundoBranco.avif') no-repeat center center fixed; background-size: cover; min-height: 100vh; display: flex; flex-direction: column; }
         
-        .header-top { background: url('/imagem/FundoAzulEscuro.jpg') center center; background-size: cover; height: 80px; display: flex; align-items: center; justify-content: space-between; padding: 0 30px; color: white; border-bottom: 4px solid #cc0000; }
-        .header-left { display: flex; align-items: center; gap: 15px; height: 100%;}
-        .logo-small { height: 45px; width: auto; display: block; object-fit: contain;}
-        .teste.html{ font-size: 1.4rem; font-weight: bold; text-transform: uppercase; line-height: 1; display: flex; align-items: center;}
-        .btn-exit { background-color: #cc0000; color: white; text-decoration: none; padding: 6px 20px; border-radius: 5px; font-weight: bold; }
+        body { 
+            background: url('/imagem/FundoBranco.avif') no-repeat center center fixed; 
+            background-size: cover; min-height: 100vh; display: flex; flex-direction: column; 
+        }
+
+        /* CABEÇALHO PADRÃO LOJA 62 */
+        .header-top { 
+            background: url('/imagem/FundoAzulEscuro.jpg') center center; 
+            background-size: cover; height: 80px; display: flex; 
+            align-items: center; justify-content: space-between; 
+            padding: 0 30px; color: white; border-bottom: 4px solid #cc0000; 
+        }
+        .header-left { display: flex; align-items: center; gap: 15px; }
+        .logo-small { height: 45px; object-fit: contain; display: block; }
+        .page-name { font-size: 1.4rem; font-weight: bold; text-transform: uppercase; line-height: 1; }
+
+        .btn-home { color: white; text-decoration: none; font-weight: bold; display: flex; align-items: center; gap: 8px; font-size: 0.9rem; }
 
         .main-container { flex: 1; padding: 20px; display: flex; justify-content: center; align-items: flex-start; }
-        .content-box { background: rgba(255, 255, 255, 0.95); width: 100%; max-width: 550px; border-radius: 20px; padding: 25px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); border: 1px solid #e0e0e0; }
-        
-        .modulo-title { color: #002855; border-left: 5px solid #cc0000; padding-left: 15px; margin-bottom: 20px; font-size: 1.4rem; }
 
-        .input-group { margin-bottom: 15px; display: flex; flex-direction: column; }
-        .input-group label { font-size: 0.85rem; font-weight: bold; color: #002855; margin-bottom: 5px; }
-        .input-group input, .input-group select { padding: 12px; border-radius: 8px; border: 2px solid #ddd; font-size: 1.1rem; font-weight: bold; color: #333; }
-        
-        /* PAINEL DE RESULTADOS PREDITIVOS */
-        .prediction-box { background: #002855; color: white; padding: 20px; border-radius: 15px; margin-top: 10px; text-align: center; display: none; }
-        .prediction-box h3 { font-size: 0.8rem; text-transform: uppercase; opacity: 0.7; margin-bottom: 15px; letter-spacing: 1px; }
-        
-        .grid-previsao { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .item-previsao { background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); }
-        .item-previsao span { display: block; font-size: 0.7rem; margin-bottom: 5px; }
-        .item-previsao strong { font-size: 1.5rem; color: #44bd32; display: block; }
+        /* BOX ESTILO GLASSMORFISM */
+        .content-box { 
+            background: rgba(15, 35, 75, 0.95); width: 100%; max-width: 500px; 
+            border-radius: 25px; padding: 30px; border: 1px solid rgba(255,255,255,0.2); 
+            color: white; box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+        }
 
-        .alert-msg { background: #fff5f5; border-left: 4px solid #cc0000; color: #c53030; padding: 10px; border-radius: 4px; font-size: 0.8rem; margin-top: 15px; display: none; }
+        .input-group { margin-bottom: 20px; display: flex; flex-direction: column; gap: 8px; }
+        .input-group label { font-size: 0.85rem; font-weight: bold; color: rgba(255,255,255,0.9); text-transform: uppercase; }
+        .input-group input, .input-group select { 
+            padding: 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.3); 
+            background: rgba(255,255,255,0.1); color: white; font-size: 1.1rem; font-weight: bold; outline: none;
+        }
+        .input-group input:focus { border-color: #44bd32; background: rgba(255,255,255,0.2); }
+        .input-group select option { background: #001233; color: white; }
 
-        .btn-pdf { width: 100%; margin-top: 20px; padding: 12px; background: #002855; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; }
-        .footer { color: white; margin-top: 25px; width: 100%; background: rgba(0, 0, 0, 0.8); padding: 15px; font-size: 0.7rem; text-align: center; border-radius: 10px; }
+        /* PAINEL DE RESULTADOS E TRAVAS */
+        .prediction-panel { 
+            background: rgba(255,255,255,0.1); border-radius: 15px; 
+            padding: 20px; margin-top: 10px; display: none; border-left: 5px solid #44bd32;
+        }
+        .status-msg { margin-bottom: 15px; padding: 10px; border-radius: 8px; font-weight: bold; text-align: center; font-size: 0.8rem; text-transform: uppercase; }
+        
+        .predict-item { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 5px; }
+        .predict-item strong { color: #44bd32; font-size: 1.3rem; }
+
+        .btn-pdf { 
+            width: 100%; margin-top: 25px; padding: 15px; background: #cc0000; 
+            color: white; border: none; border-radius: 10px; font-weight: bold; 
+            cursor: pointer; display: flex; align-items: center; justify-content: center; 
+            gap: 10px; transition: 0.3s; font-size: 1rem;
+        }
+        .btn-pdf:hover { background: #ff0000; transform: scale(1.02); }
+        .btn-pdf:disabled { background: #555; cursor: not-allowed; opacity: 0.5; transform: scale(1); }
     </style>
 </head>
 <body>
@@ -53,176 +74,145 @@
             <img src="/imagem/LogoApp.png" alt="Logo" class="logo-small">
             <span style="font-weight: bold; margin-left: 10px;">Simulador 8h48m</span>
         </div>
-        <a href="/pags/dashboard.html" style="color:white; text-decoration:none;"><i class="fas fa-home"></i> Menu</a>
+        <a href="teste.html" class="btn-home"><i class="fas fa-home"></i>Menu</a>
     </header>
 
     <main class="main-container">
         <div class="content-box">
-            <h2 class="modulo-title">Cálculadora de Ponto
-            </h2>
-
             <div class="input-group">
-                <label><i class="fas fa-clock"></i> Que horas você entrou?</label>
-                <input type="time" id="entrada" onchange="calcularPrevisao()">
+                <label><i class="fas fa-clock"></i> Horário de Entrada:</label>
+                <input type="time" id="entrada" onchange="calcularJornada()">
             </div>
 
             <div class="input-group">
-                <label><i class="fas fa-utensils"></i> Que horas pretende almoçar?</label>
-                <input type="time" id="saidaAlmoco" onchange="calcularPrevisao()">
+                <label><i class="fas fa-utensils"></i> Saída para Almoço:</label>
+                <input type="time" id="saidaAlmoco" onchange="calcularJornada()">
             </div>
 
             <div class="input-group">
                 <label><i class="fas fa-hourglass-half"></i> Tempo de Almoço:</label>
-                <select id="tempoAlmoco" onchange="calcularPrevisao()">
+                <select id="tempoAlmoco" onchange="calcularJornada()">
                     <option value="70">1 hora e 10 minutos</option>
                     <option value="80">1 hora e 20 minutos</option>
                 </select>
             </div>
 
-            <div class="prediction-box" id="painelPrevisao">
-                <h3>Cronograma Sugerido</h3>
-                <div class="grid-previsao">
-                    <div class="item-previsao">
-                        <span>Voltar do Almoço</span>
-                        <strong id="resRetorno">--:--</strong>
+            <div class="prediction-panel" id="painelResultados">
+                <div id="statusJornada" class="status-msg"></div>
+                
+                <div id="corpoResultados">
+                    <div class="predict-item">Voltar do Almoço: <strong id="resRetorno">--:--</strong></div>
+                    <div class="predict-item">Hora de Ir Embora: <strong id="resSaida">--:--</strong></div>
+                    <div style="font-size: 0.7rem; opacity: 0.6; margin-top: 10px; text-align: center; font-style: italic;">
+                        Intervalo Interjornada (11h): <span id="resDescanso">--:--</span>
                     </div>
-                    <div class="item-previsao">
-                        <span>Horário de Saída</span>
-                        <strong id="resSaida">--:--</strong>
-                    </div>
-                </div>
-                <div style="margin-top: 15px; font-size: 0.7rem; opacity: 0.6;">
-                    Próximo turno permitido após: <span id="resDescanso">--:--</span>
                 </div>
             </div>
 
-            <div id="erroMsg" class="alert-msg"></div>
-
-            <button class="btn-pdf" onclick="exportarPDF()">
-                <i class="fas fa-file-pdf"></i> Salvar meu Cronograma
+            <button class="btn-pdf" id="btnSalvar" onclick="gerarPDF()" disabled>
+                <i class="fas fa-file-pdf"></i> Salvar Cronograma (PDF)
             </button>
         </div>
     </main>
 
-    <div class="footer">
-      <P>Copyright &copy; Sem Direitos</P>
-      <p>Não é o Portal Original do Savegnago</p>
-      <P>Criado e Desenvolvido Por Vinicius Viana Cartazista da Loja 62</P>
-    </div>
-
     <script>
+        // Converte HH:MM para minutos totais
         function toMin(h) { if(!h) return 0; const [hrs, min] = h.split(':').map(Number); return hrs * 60 + min; }
-        function fromMin(m) { return `${String(Math.floor(m/60)%24).padStart(2,'0')}:${String(m%60).padStart(2,'0')}`; }
+        
+        // Converte minutos totais para HH:MM
+        function fromMin(m) { 
+            const h = Math.floor(m / 60) % 24;
+            const min = m % 60;
+            return `${String(h).padStart(2, '0')}:${String(min).padStart(2, '0')}`;
+        }
 
-        function calcularPrevisao() {
+        function calcularJornada() {
             const ent = toMin(document.getElementById('entrada').value);
             const sAlm = toMin(document.getElementById('saidaAlmoco').value);
             const tAlm = parseInt(document.getElementById('tempoAlmoco').value);
             
-            const painel = document.getElementById('painelPrevisao');
-            const erro = document.getElementById('erroMsg');
-            erro.style.display = 'none';
+            const painel = document.getElementById('painelResultados');
+            const status = document.getElementById('statusJornada');
+            const corpo = document.getElementById('corpoResultados');
+            const btn = document.getElementById('btnSalvar');
 
             if (ent && sAlm) {
                 painel.style.display = 'block';
-                
-                // 1. Cálculo da Volta do Almoço
+                const trabalhadoAteAgora = sAlm - ent;
+
+                // --- SISTEMA DE TRAVAS (REGRAS CLT / SAVEGNAGO) ---
+                let erro = "";
+                if (trabalhadoAteAgora < 120) {
+                    erro = "BLOQUEADO: Almoço deve ser após 2h de trabalho.";
+                } else if (trabalhadoAteAgora > 360) {
+                    erro = "BLOQUEADO: Máximo de 6h sem intervalo excedido.";
+                }
+
+                if (erro !== "") {
+                    // Estado de Erro/Trava
+                    status.style.background = "#cc0000";
+                    status.innerHTML = `<i class="fas fa-exclamation-triangle"></i> ${erro}`;
+                    corpo.style.opacity = "0.2";
+                    btn.disabled = true;
+                    painel.style.borderLeftColor = "#cc0000";
+                    return;
+                }
+
+                // Estado de Sucesso
+                status.style.background = "#44bd32";
+                status.innerHTML = `<i class="fas fa-check-circle"></i> Horários dentro das Normas`;
+                corpo.style.opacity = "1";
+                btn.disabled = false;
+                painel.style.borderLeftColor = "#44bd32";
+
+                // Cálculos Finais (Jornada 8h48 = 528 min)
                 const retorno = sAlm + tAlm;
-                
-                // 2. Cálculo da Saída Final (Jornada 8h48 = 528 minutos)
-                const jaTrabalhado = sAlm - ent;
-                const faltaTrabalhar = 528 - jaTrabalhado;
-                const saidaFinal = retorno + faltaTrabalhar;
+                const tempoRestante = 528 - trabalhadoAteAgora;
+                const saidaFinal = retorno + tempoRestante;
+                const descansoMinimo = saidaFinal + 660; // 11h de descanso
 
-                // 3. Próximo Turno (Saída + 11h)
-                const descanso = saidaFinal + 660;
-
-                // Exibição
                 document.getElementById('resRetorno').innerText = fromMin(retorno);
                 document.getElementById('resSaida').innerText = fromMin(saidaFinal);
-                document.getElementById('resDescanso').innerText = fromMin(descanso);
-
-                // Validações
-                let mensagens = [];
-                if (jaTrabalhado < 120) mensagens.push("Regra: Você só deve almoçar após 2h de trabalho.");
-                if (jaTrabalhado >= 360) mensagens.push("Atenção: Você está atingindo 6h direto. Almoce agora!");
-                if (jaTrabalhado + (saidaFinal - retorno) >= 540) mensagens.push("Alerta: Esta escala atingirá 9h totais.");
-
-                if (mensagens.length > 0) {
-                    erro.innerHTML = mensagens.join("<br>");
-                    erro.style.display = 'block';
-                }
+                document.getElementById('resDescanso').innerText = fromMin(descansoMinimo);
             }
         }
 
-        async function exportarPDF() {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-    
-    // 1. Criar uma função para carregar a imagem e converter para Base64
-    const carregarImagem = (url) => {
-        return new Promise((resolve, reject) => {
-            const img = new Image();
-            img.onload = () => resolve(img);
-            img.onerror = reject;
-            img.src = url;
-        });
-    };
+        async function gerarPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // Cabeçalho institucional azul
+            doc.setFillColor(0, 18, 51);
+            doc.rect(0, 0, 210, 45, 'F');
+            
+            // Título
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(16);
+            doc.setFont("helvetica", "bold");
+            doc.text("CRONOGRAMA DE TRABALHO - LOJA 62", 105, 30, { align: "center" });
+            doc.setFontSize(10);
+            doc.text("JORNADA PADRÃO: 08:48", 105, 38, { align: "center" });
 
-    try {
-        // Tenta carregar a sua logo
-        const logo = await carregarImagem('/imagem/LogoApp.png');
+            const dadosTabela = [
+                ["Entrada", document.getElementById('entrada').value],
+                ["Saída para Almoço", document.getElementById('saidaAlmoco').value],
+                ["Duração do Intervalo", document.getElementById('tempoAlmoco').options[document.getElementById('tempoAlmoco').selectedIndex].text],
+                ["RETORNO DO ALMOÇO", document.getElementById('resRetorno').innerText],
+                ["HORA DE IR EMBORA", document.getElementById('resSaida').innerText],
+                ["Próximo Turno Permitido", document.getElementById('resDescanso').innerText]
+            ];
 
-        // 2. Cabeçalho Azul Escuro
-        doc.setFillColor(0, 18, 51); // Azul do FundoAzulEscuro.jpg
-        doc.rect(0, 0, 210, 50, 'F');
+            doc.autoTable({
+                startY: 50,
+                head: [['Evento de Ponto', 'Horário Previsto']],
+                body: dadosTabela,
+                headStyles: { fillColor: [204, 0, 0], halign: 'center' },
+                theme: 'striped',
+                columnStyles: { 1: { halign: 'center', fontStyle: 'bold' } }
+            });
 
-        // 3. Centralizar a Logo no Topo
-        // (x, y, largura, altura)
-        doc.addImage(logo, 'PNG', 85, 5, 15, 15); 
-
-        // 4. Texto do Título abaixo da Logo
-        doc.setTextColor(255, 255, 255);
-        doc.setFontSize(16);
-        doc.setFont("helvetica", "bold");
-        doc.text("CRONOGRAMA DE TRABALHO - LOJA 62", 105, 35, { align: "center" });
-        
-        // 5. Tabela de Dados
-        const tabela = [
-            ["Entrada Realizada", document.getElementById('entrada').value],
-            ["Saída para Almoço", document.getElementById('saidaAlmoco').value],
-            ["Tempo de Intervalo", document.getElementById('tempoAlmoco').options[document.getElementById('tempoAlmoco').selectedIndex].text],
-            ["RETORNO DO ALMOÇO", document.getElementById('resRetorno').innerText],
-            ["HORA DE IR EMBORA", document.getElementById('resSaida').innerText],
-            ["Próximo Turno (Descanso 11h)", document.getElementById('resDescanso').innerText]
-        ];
-
-        doc.autoTable({
-            startY: 55,
-            head: [['Descrição do Evento', 'Horário']],
-            body: tabela,
-            theme: 'striped',
-            headStyles: { fillColor: [204, 0, 0], halign: 'center' }, // Vermelho Savegnago
-            columnStyles: {
-                1: { halign: 'center', fontStyle: 'bold' }
-            }
-        });
-
-        // Rodapé com data e hora da geração
-        const dataHoje = new Date().toLocaleString();
-        doc.setFontSize(8);
-        doc.setTextColor(100);
-        doc.text(`Gerado em: ${dataHoje} - Portal Loja 62`, 105, 290, { align: "center" });
-
-        doc.save("Meu_Cronograma_62.pdf");
-
-    } catch (error) {
-        console.error("Erro ao carregar a logo:", error);
-        alert("Não foi possível carregar a logo para o PDF, mas o arquivo será gerado sem ela.");
-        // Se a imagem falhar, gera o PDF só com o texto
-        doc.save("Meu_Cronograma_62.pdf");
-    }
-}
+            doc.save(`Cronograma_8h48_Loja62.pdf`);
+        }
     </script>
 </body>
 </html>

@@ -137,7 +137,7 @@
 
     <div class="menu-grid">
         <a href="https://savegnago.smarketsolutions.com.br/login" class="menu-item" target="_blank">
-            <i class="fas fa-tags"></i><span>Smarket</span>
+            <i class="fas fa-tags"></i><span>Cartaz</span>
         </a>
         
         <div class="menu-item" onclick="aviso('Apex')">
@@ -159,6 +159,15 @@
         <a href="/pags/notas.html" class="menu-item" target="_blank">
             <i class="fas fa-notes-medical"></i><span>Bloco de Anotação</span>
         </a>
+
+        <a href="https://www.photopea.com" class="menu-item" target="_blank">
+            <i class="fa-solid fa-photo-film"></i><span>Photopea</span>
+        </a>
+
+        <a href="https://pixlr.com/br" class="menu-item" target="_blank">
+            <i class="fa-solid fa-image"></i><span>Pixlr</span>
+        </a>
+        
     </div>
 
     <div class="social-footer">
@@ -192,12 +201,14 @@
         type: "text",
         label: "Qual o Seu Nome?:",
         name: "nome",
+        required: true,
         placeholder: "Fulano da Silva",
       },
       {
         type: "text",
         label: "Qual a Sua Loja?:",
         name: "loja",
+        required: true,
         placeholder: "Loja 00",
       },
       { 
@@ -211,6 +222,7 @@
         type: "textarea",
         label: "Mensagem:",
         name: "message",
+        required: true,
         placeholder: "Qual sua dúvida?",
       },
       { 

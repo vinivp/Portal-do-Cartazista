@@ -4,47 +4,78 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pedido de Cartaz</title>
+    
+    <script>
+        if (sessionStorage.getItem('logado') !== 'true') {
+            window.location.href = "../index.html";
+        }
+    </script>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" type="image/png" href="/imagem/LogoApp.png">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
     <script src="https://formspree.io/js/formbutton-v1.min.js" defer></script>
+    
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
         body { background: url('/imagem/FundoBranco.avif') no-repeat center center fixed; background-size: cover; min-height: 100vh; display: flex; flex-direction: column; }
         
-        .header-top { background: url('/imagem/FundoAzulEscuro.jpg') center center; background-size: cover; height: 80px; display: flex; align-items: center; justify-content: space-between; padding: 0 30px; color: white; border-bottom: 4px solid #cc0000; }
+        /* HEADER AJUSTADO */
+        .header-top { 
+            background: url('/imagem/FundoAzulEscuro.jpg') center center; 
+            background-size: cover; 
+            height: 80px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            padding: 0 30px; 
+            color: white; 
+            border-bottom: 4px solid #cc0000; 
+        }
         .header-left { display: flex; align-items: center; gap: 15px; height: 100%;}
         .logo-small { height: 45px; object-fit: contain; }
 
-        .main-container { flex: 1; padding: 20px; display: flex; flex-direction: column; align-items: center; gap: 20px; }
-        
-        .content-box {
-            background: rgba(15, 35, 75, 0.95); width: 100%; max-width: 850px;
-            border-radius: 20px; padding: 25px; border: 1px solid rgba(255,255,255,0.2);
-            color: white; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        /* NOVA ÁREA DO USUÁRIO NO TOPO DIREITO */
+        .header-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 5px;
         }
+        .user-name {
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.9;
+        }
+        .btn-home {
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .btn-home:hover { color: #44bd32; }
 
+        /* ... RESTANTE DO SEU CSS IGUAL ... */
+        .main-container { flex: 1; padding: 20px; display: flex; flex-direction: column; align-items: center; gap: 20px; }
+        .content-box { background: rgba(15, 35, 75, 0.95); width: 100%; max-width: 850px; border-radius: 20px; padding: 25px; border: 1px solid rgba(255,255,255,0.2); color: white; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
         .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; }
         .input-group { display: flex; flex-direction: column; gap: 5px; }
         .input-group label { font-size: 0.8rem; font-weight: bold; }
         .input-group input, .input-group select { padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.1); color: white; }
         .input-group select option { background: #001233; color: white; }
-
         .checkbox-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin: 15px 0; padding: 15px; background: rgba(0,0,0,0.2); border-radius: 12px; }
         .check-item { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; cursor: pointer; }
-
         .btn-add { background: #44bd32; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; transition: 0.3s; }
         .btn-add:hover { background: #2d8a22; transform: scale(1.01); }
-        
         .list-box { background: white; width: 100%; max-width: 850px; border-radius: 15px; padding: 20px; color: #333; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
         table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.85rem; }
         th { background: #001233; color: white; padding: 10px; text-align: left; }
         td { padding: 10px; border-bottom: 1px solid #eee; }
-
         .btn-pdf { background: #cc0000; color: white; border: none; padding: 12px 25px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 15px; float: right; }
         .dynamic-field { display: none; }
-
         .footer { color: white; margin-top: 25px; width: 100%; background: rgba(0, 0, 0, 0.8); padding: 15px; font-size: 0.7rem; text-align: center; border-radius: 10px; }
     </style>
 </head>
@@ -55,7 +86,11 @@
             <img src="/imagem/LogoApp.png" alt="Logo" class="logo-small">
             <span style="font-weight: bold; margin-left: 10px;">PEDIDO DE CARTAZ </span>
         </div>
-        <a href="/pags/dashboard.html" style="color:white; text-decoration:none;"><i class="fas fa-home"></i> Menu</a>
+        
+        <div class="header-right">
+            <span class="user-name" id="userDisplay">Carregando...</span>
+            <a href="/pags/dashboard.html" class="btn-home"><i class="fas fa-home"></i> Home</a>
+        </div>
     </header>
 
     <main class="main-container">
@@ -126,6 +161,14 @@
     </div>
 
     <script>
+        // SCRIPT PARA CARREGAR O NOME DO USUÁRIO
+        window.addEventListener('DOMContentLoaded', () => {
+            const nome = sessionStorage.getItem('nomeUsuario');
+            if (nome) {
+                document.getElementById('userDisplay').innerText = nome;
+            }
+        });
+
         let pedidos = [];
 
         function toggle(id) { 
@@ -164,7 +207,6 @@
             atualizarTabela();
             document.getElementById('areaLista').style.display = 'block';
             
-            // Limpa campos principais para o próximo
             document.getElementById('codRedutor').value = "";
             document.getElementById('precoCheio').value = "";
         }
@@ -188,7 +230,6 @@
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
             
-            // Cabeçalho institucional
             doc.setFillColor(0, 18, 51); doc.rect(0, 0, 210, 30, 'F');
             doc.setTextColor(255, 255, 255);
             doc.setFontSize(16); doc.text("RELAÇÃO DE PEDIDOS DE CARTAZES - LOJA 62", 105, 20, {align: 'center'});
@@ -199,7 +240,7 @@
                 startY: 35,
                 head: [['Código', 'Tamanho', 'Preço Base', 'Informações Adicionais']],
                 body: body,
-                headStyles: { fillColor: [204, 0, 0] }, // Vermelho Savegnago
+                headStyles: { fillColor: [204, 0, 0] }, 
                 styles: { fontSize: 9, cellPadding: 3 },
                 columnStyles: { 3: { cellWidth: 80 } }
             });
@@ -209,7 +250,7 @@
     </script>
 
     <script>
-  /* paste this line in verbatim */
+        /* paste this line in verbatim */
   window.formbutton=window.formbutton||function(){(formbutton.q=formbutton.q||[]).push(arguments)};
   /* customize formbutton below*/     
   formbutton("create", {
@@ -258,8 +299,53 @@
       }
     }
   });
-</script>
+    </script>
+
+    <script>
+        window.formbutton=window.formbutton||function(){(formbutton.q=formbutton.q||[]).push(arguments)};
+        
+        formbutton("create", {
+            action: "https://formspree.io/f/xojnlrlb",
+            title: "Suporte do Portal",
+            fields: [
+                {
+                    type: "text",
+                    label: "Seu Nome:",
+                    name: "nome",
+                    required: true,
+                    placeholder: sessionStorage.getItem('nomeUsuario') || "Fulano da Silva",
+                },
+                {
+                    type: "text",
+                    label: "Sua Loja:",
+                    name: "loja",
+                    required: true,
+                    placeholder: "Loja 62",
+                },
+                { 
+                    type: "email", 
+                    label: "Email:", 
+                    name: "email",
+                    required: true,
+                    placeholder: "seu@email.com"
+                },
+                {
+                    type: "textarea",
+                    label: "Mensagem:",
+                    name: "message",
+                    required: true,
+                    placeholder: "Qual sua dúvida?",
+                },
+                { 
+                    type: "submit", 
+                    label: "Enviar" 
+                }      
+            ],
+            styles: {
+                title: { backgroundColor: "#0f2350" },
+                button: { backgroundColor: "#44bd32" }
+            }
+        });
+    </script>
 </body>
 </html>
-
-

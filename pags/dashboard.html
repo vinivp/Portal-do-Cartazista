@@ -3,249 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
-    <link rel="apple-touch-icon" href="/imagem/LogoApp.png">
-    <link rel="icon" type="image/png" href="/imagem/LogoApp.png">
     <title>Menu Principal - Loja 62</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://formspree.io/js/formbutton-v1.min.js" defer></script>
+    
+    <script>
+        if (sessionStorage.getItem('logado') !== 'true') {
+            window.location.href = "../index.html"; // Volta para o login se tentar entrar direto
+        }
+    </script>
+
     <style>
+        /* ... (seus estilos permanecem iguais até o header-panel) ... */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
         
         body {
             background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/imagem/frente01loja62.png');
-            background-size: cover; 
-            background-position: center; 
-            background-attachment: fixed;
-            min-height: 100vh;
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            padding: 20px;
+            background-size: cover; background-position: center; background-attachment: fixed;
+            min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px;
         }
 
-        /* BOTÃO LOGOUT NO TOPO */
-        .top-bar {
-            width: 100%;
-            max-width: 800px;
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 10px;
-        }
+        .top-bar { width: 100%; max-width: 800px; display: flex; justify-content: flex-end; margin-bottom: 10px; }
 
         .btn-logout {
-            background: rgba(214, 48, 49, 0.2);
-            backdrop-filter: blur(5px);
-            color: white;
-            padding: 8px 15px;
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 0.8rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            background: rgba(214, 48, 49, 0.2); backdrop-filter: blur(5px); color: white;
+            padding: 8px 15px; border-radius: 10px; text-decoration: none; font-weight: bold;
+            font-size: 0.8rem; border: 1px solid rgba(255, 255, 255, 0.2); transition: 0.3s;
+            display: flex; align-items: center; gap: 8px; cursor: pointer;
         }
 
-        .btn-logout:hover {
-            background: rgba(214, 48, 49, 0.8);
-            transform: scale(1.05);
-        }
+        .btn-logout:hover { background: rgba(214, 48, 49, 0.8); transform: scale(1.05); }
 
-        /* PAINEL DE CABEÇALHO */
         .header-panel { 
-            background: rgba(15, 35, 80, 0.7); 
-            backdrop-filter: blur(10px);
-            padding: 20px 40px; 
-            border-radius: 50px; 
-            color: white; 
-            text-align: center; 
-            margin-bottom: 40px;
-            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(15, 35, 80, 0.7); backdrop-filter: blur(10px);
+            padding: 20px 40px; border-radius: 50px; color: white; text-align: center; 
+            margin-bottom: 40px; border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .header-panel h1 { 
+    font-size: 1.8rem; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    gap: 10px;
+    color: white; /* Garante que a saudação seja branca */
+}
+
+        /* 2. ESTILO DA SAUDAÇÃO */
+        .welcome-text {
+            color: #44bd32;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            display: block;
         }
 
         .header-panel h1 { font-size: 1.8rem; display: flex; align-items: center; justify-content: center; gap: 10px; }
-        .logo-img { height: 35px; }
-
-        /* GRADE DE MENU */
-        .menu-grid { 
-            display: grid; 
-            grid-template-columns: repeat(3, 160px); 
-            gap: 20px; 
-            justify-content: center; 
-        }
-
-        .menu-item { 
-            background: rgba(15, 35, 80, 0.6); 
-            backdrop-filter: blur(8px);
-            border-radius: 20px; 
-            height: 150px; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            color: white; 
-            cursor: pointer; 
-            text-decoration: none;
-            text-align: center; 
-            border: 2px solid rgba(255,255,255,0.1); 
-            transition: 0.3s;
-        }
-
+        
+        /* ... (o restante do seu CSS continua igual) ... */
+        .menu-grid { display: grid; grid-template-columns: repeat(3, 160px); gap: 20px; justify-content: center; }
+        .menu-item { background: rgba(15, 35, 80, 0.6); backdrop-filter: blur(8px); border-radius: 20px; height: 150px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; cursor: pointer; text-decoration: none; text-align: center; border: 2px solid rgba(255,255,255,0.1); transition: 0.3s; }
         .menu-item:hover { transform: translateY(-5px); border-color: #44bd32; background: rgba(15, 35, 80, 0.8); }
         .menu-item i { font-size: 2.5rem; margin-bottom: 12px; }
         .menu-item span { font-weight: bold; font-size: 0.85rem; padding: 0 5px; }
-
-        /* RODAPÉ SOCIAL */
-        .social-footer {
-            margin-top: 40px;
-            display: flex;
-            gap: 20px;
-        }
-
-        .social-icon {
-            color: white;
-            font-size: 1.5rem;
-            transition: 0.3s;
-        }
-
+        .social-footer { margin-top: 40px; display: flex; gap: 20px; }
+        .social-icon { color: white; font-size: 1.5rem; transition: 0.3s; }
         .social-icon:hover { color: #44bd32; transform: scale(1.2); }
         .footer { color: white; margin-top: 25px; width: 100%; background: rgba(0, 0, 0, 0.8); padding: 15px; font-size: 0.7rem; text-align: center; border-radius: 10px; }
-
-        @media (max-width: 550px) { 
-            .menu-grid { grid-template-columns: repeat(2, 1fr); width: 100%; max-width: 350px; } 
-            .header-panel { padding: 15px 20px; }
-        }
+        @media (max-width: 550px) { .menu-grid { grid-template-columns: repeat(2, 1fr); width: 100%; max-width: 350px; } .header-panel { padding: 15px 20px; } }
     </style>
 </head>
 <body>
 
     <div class="top-bar">
-        <a href="/" class="btn-logout">
+        <a href="#" class="btn-logout" onclick="fazerLogout()">
             <i class="fas fa-sign-out-alt"></i> Sair
         </a>
     </div>
 
     <div class="header-panel">
-        <h1>Portal do Cartazista</h1>
-        <p style="font-size: 0.8rem; margin-top: 5px; opacity: 0.8; letter-spacing: 1px;">O QUE DESEJA FAZER HOJE ?</p>
-    </div>
+    <h1 id="textoSaudacao">Portal do Cartazista</h1>
+    <p style="font-size: 0.8rem; margin-top: 5px; opacity: 0.8; letter-spacing: 1px;">O QUE DESEJA FAZER HOJE?</p>
+</div>
 
     <div class="menu-grid">
         <a href="https://savegnago.smarketsolutions.com.br/login" class="menu-item" target="_blank">
             <i class="fas fa-tags"></i><span>Smarket</span>
         </a>
-        
         <div class="menu-item" onclick="aviso('Apex')">
             <i class="fas fa-desktop"></i><span>Apex</span>
         </div>
-
-        <a href="/pags/pedido_cartaz.html" class="menu-item" target="_blank">
+        <a href="https://portal.savegnago.com.br" class="menu-item" target="_blank">
+            <i class="fa-regular fa-address-card"></i><span>Portal Savegnago</span>
+        </a>
+        <a href="/pags/pedido_cartaz.html" class="menu-item">
             <i class="fas fa-clipboard-list"></i><span>Pedido de Cartaz</span>
         </a>
-
-        <a href="/pags/calculadora8h48m.html" class="menu-item" target="_blank">
+        <a href="/pags/calculadora8h48m.html" class="menu-item">
             <i class="fas fa-stopwatch"></i><span>Calculadora de Ponto</span>
         </a>
-
         <a href="https://dtfaceum.com/gruposavegnago" class="menu-item" target="_blank">
             <i class="fas fa-user-check"></i><span>DTFaceum</span>
         </a>
-        
-        <a href="/pags/notas.html" class="menu-item" target="_blank">
+        <a href="/pags/notas.html" class="menu-item">
             <i class="fas fa-notes-medical"></i><span>Bloco de Anotação</span>
         </a>
-
         <a href="https://www.photopea.com" class="menu-item" target="_blank">
-            <i class="fa-solid fa-photo-film"></i><span>Photopea</span>
+            <i class="fa-solid fa-camera"></i><span>Photopea</span>
         </a>
-
         <a href="https://pixlr.com/br" class="menu-item" target="_blank">
-            <i class="fa-solid fa-image"></i><span>Pixlr</span>
+            <i class="fa-solid fa-photo-film"></i><span>Pixlr</span>
         </a>
-
-        <a href="https://canva.com" class="menu-item" target="_blank">
-            <i class="fa-solid fa-image"></i><span>Canva</span>
-        </a>
-        
     </div>
-
-    <div class="social-footer">
-        <a href="https://www.instagram.com/savegnagosupermercados/" class="social-icon"><i class="fab fa-instagram"></i></a>
-        <a href="https://www.facebook.com/savegnago.supermercados/" class="social-icon"><i class="fab fa-facebook"></i></a>
-        <a href="https://x.com/savegnagosup" class="social-icon"><i class="fab fa-twitter"></i></a>
-    </div>
-
-    <div class="footer">
-      <P>Copyright &copy; 2026 || 19/02/2026</P>
-      <P>Criado e Desenvolvido Por Vinicius Viana Cartazista da Loja 62</P>
-    </div>
-
 
     <script>
-        function aviso(nome) {
-            alert("A seção '" + nome + "' ainda está em Desenvolvimento pela Loja 62.");
+        // CARREGA O NOME DO USUÁRIO AO ABRIR A PÁGINA
+    window.onload = function() {
+        const nome = sessionStorage.getItem('nomeUsuario');
+        const saudacaoElemento = document.getElementById('textoSaudacao');
+        
+        if (nome) {
+            // Substitui o título pelo nome do usuário em branco
+            saudacaoElemento.innerText = "Olá, " + nome;
         }
+    };
+
+    // FUNÇÃO DE LOGOUT
+    function fazerLogout() {
+        sessionStorage.clear(); 
+        window.location.href = "../index.html"; 
+    }
+
+    function aviso(nome) {
+        alert("A seção '" + nome + "' ainda está em Desenvolvimento pela Loja 62.");
+    }
     </script>
 
     <script>
-  /* paste this line in verbatim */
-  window.formbutton=window.formbutton||function(){(formbutton.q=formbutton.q||[]).push(arguments)};
-  /* customize formbutton below*/     
-  formbutton("create", {
-    action: "https://formspree.io/f/xojnlrlb",
-    title: "Suporte do Portal",
-    fields: [
-     {
-        type: "text",
-        label: "Qual o Seu Nome?:",
-        name: "nome",
-        required: true,
-        placeholder: "Fulano da Silva",
-      },
-      {
-        type: "text",
-        label: "Qual a Sua Loja?:",
-        name: "loja",
-        required: true,
-        placeholder: "Loja 00",
-      },
-      { 
-        type: "email", 
-        label: "Email:", 
-        name: "email",
-        required: true,
-        placeholder: "seu@email.com"
-      },
-      {
-        type: "textarea",
-        label: "Mensagem:",
-        name: "message",
-        required: true,
-        placeholder: "Qual sua dúvida?",
-      },
-      { 
-        type: "submit", 
-        label: "Enviar" 
-    }      
-    ],
-    styles: {
-      title: {
-        backgroundColor: "Blue"
-      },
-      button: {
-        backgroundColor: "green"
-      }
-    }
-  });
-</script>
+        window.formbutton=window.formbutton||function(){(formbutton.q=formbutton.q||[]).push(arguments)};
+        
+        formbutton("create", {
+            action: "https://formspree.io/f/xojnlrlb",
+            title: "Suporte do Portal",
+            fields: [
+                {
+                    type: "text",
+                    label: "Seu Nome:",
+                    name: "nome",
+                    required: true,
+                    placeholder: sessionStorage.getItem('nomeUsuario') || "Fulano da Silva",
+                },
+                {
+                    type: "text",
+                    label: "Sua Loja:",
+                    name: "loja",
+                    required: true,
+                    placeholder: "Loja 62",
+                },
+                { 
+                    type: "email", 
+                    label: "Email:", 
+                    name: "email",
+                    required: true,
+                    placeholder: "seu@email.com"
+                },
+                {
+                    type: "textarea",
+                    label: "Mensagem:",
+                    name: "message",
+                    required: true,
+                    placeholder: "Qual sua dúvida?",
+                },
+                { 
+                    type: "submit", 
+                    label: "Enviar" 
+                }      
+            ],
+            styles: {
+                title: { backgroundColor: "#0f2350" },
+                button: { backgroundColor: "#44bd32" }
+            }
+        });
+    </script>
 
-</body>
+    </body>
 </html>
-
-
-

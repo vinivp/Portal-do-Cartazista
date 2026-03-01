@@ -229,13 +229,13 @@
             doc.setTextColor(255, 255, 255);
             doc.setFontSize(16);
             doc.setFont("helvetica", "bold");
-            doc.text("CRONOGRAMA DE TRABALHO - LOJA 62", 105, 30, { align: "center" });
+            doc.text("Cronograma de Trabalho", 105, 30, { align: "center" });
 
             const dadosTabela = [
                 ["Entrada", document.getElementById('entrada').value],
                 ["Saída para Almoço", document.getElementById('saidaAlmoco').value],
-                ["RETORNO DO ALMOÇO", document.getElementById('resRetorno').innerText],
-                ["HORA DE IR EMBORA", document.getElementById('resSaida').innerText],
+                ["Retoro do Almoço", document.getElementById('resRetorno').innerText],
+                ["Hora de ir Embora", document.getElementById('resSaida').innerText],
                 ["Próximo Turno Permitido", document.getElementById('resDescanso').innerText]
             ];
 
@@ -298,4 +298,5 @@
     </script>
 </body>
 </html>
+
 

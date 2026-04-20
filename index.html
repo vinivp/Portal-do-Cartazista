@@ -308,12 +308,18 @@
       const app = initializeApp(firebaseConfig);
       const auth = getAuth(app);
 
-      // Dicionário para transformar e-mails em nomes reais
-      const tabelaNomes = {
-        "loja62.areavenda@savegnago.com.br": "Vinícius Viana",
-        "loja13.areavenda@savegnago.com.br": "Isisson de Oliveira",
-        // Adicione os outros cartazistas aqui conforme necessário
-      };
+      // Dicionário gerado automaticamente da Loja 01 à Loja 65
+      const tabelaNomes = {};
+
+      for (let i = 1; i <= 65; i++) {
+        const numeroLoja = i.toString().padStart(2, "0");
+        const email = `loja${numeroLoja}.areavenda@savegnago.com.br`;
+        tabelaNomes[email] = "Sem Nome";
+      }
+
+      // Personalize os nomes conhecidos aqui (Eles aparecerão no Dashboard e Chat)
+      tabelaNomes["loja62.areavenda@savegnago.com.br"] = "Vinícius Viana [Dev. do portal]";
+      tabelaNomes["loja13.areavenda@savegnago.com.br"] = "Isisson de Oliveira";
 
       window.iniciarLogin = async function () {
         const userDigitado = document
@@ -333,10 +339,10 @@
         overlay.style.display = "flex";
         erroDiv.style.display = "none";
 
-        // Mantém a flexibilidade: aceita o usuário curto ou o e-mail completo
+        // AJUSTADO: Agora completa com o domínio correto da sua rede
         const emailCompleto = userDigitado.includes("@")
           ? userDigitado
-          : `${userDigitado}@portal.com`;
+          : `${userDigitado}.areavenda@savegnago.com.br`;
 
         try {
           const userCredential = await signInWithEmailAndPassword(
@@ -346,7 +352,7 @@
           );
           const user = userCredential.user;
 
-          // Sincroniza o Nome Real com o Firebase se ainda não estiver configurado
+          // Sincroniza o Nome Real com o Firebase Auth
           const nomeReal = tabelaNomes[user.email.toLowerCase()];
           if (nomeReal && !user.displayName) {
             await updateProfile(user, { displayName: nomeReal });

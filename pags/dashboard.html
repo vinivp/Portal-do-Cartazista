@@ -1,199 +1,376 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Menu Principal</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" type="image/png" href="/imagem/LogoApp.png"> 
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <script src="https://formspree.io/js/formbutton-v1.min.js" defer></script>
-    
+
     <script>
-        if (sessionStorage.getItem('logado') !== 'true') {
-            window.location.href = "../index.html"; // Volta para o login se tentar entrar direto
-        }
+      if (sessionStorage.getItem("logado") !== "true") {
+        window.location.href = "../index.html"; // Volta para o login se tentar entrar direto
+      }
     </script>
 
     <style>
-        /* ... (seus estilos permanecem iguais até o header-panel) ... */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        
-        body {
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/imagem/frente01loja62.png');
-            background-size: cover; background-position: center; background-attachment: fixed;
-            min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px;
-        }
+      /* ... (seus estilos permanecem iguais até o header-panel) ... */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", sans-serif;
+      }
 
-        .top-bar { width: 100%; max-width: 800px; display: flex; justify-content: flex-end; margin-bottom: 10px; }
+      body {
+        background:
+          linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url("/imagem/frente01loja62.png");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+      }
 
-        .btn-logout {
-            background: rgba(214, 48, 49, 0.2); backdrop-filter: blur(5px); color: white;
-            padding: 8px 15px; border-radius: 10px; text-decoration: none; font-weight: bold;
-            font-size: 0.8rem; border: 1px solid rgba(255, 255, 255, 0.2); transition: 0.3s;
-            display: flex; align-items: center; gap: 8px; cursor: pointer;
-        }
+      .top-bar {
+        width: 100%;
+        max-width: 800px;
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 10px;
+      }
 
-        .btn-logout:hover { background: rgba(214, 48, 49, 0.8); transform: scale(1.05); }
+      .btn-logout {
+        background: rgba(214, 48, 49, 0.2);
+        backdrop-filter: blur(5px);
+        color: white;
+        padding: 8px 15px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 0.8rem;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: 0.3s;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+      }
 
-        .header-panel { 
-            background: rgba(15, 35, 80, 0.7); backdrop-filter: blur(10px);
-            padding: 20px 40px; border-radius: 50px; color: white; text-align: center; 
-            margin-bottom: 40px; border: 1px solid rgba(255,255,255,0.2);
-        }
+      .btn-logout:hover {
+        background: rgba(214, 48, 49, 0.8);
+        transform: scale(1.05);
+      }
 
-        .header-panel h1 { 
-    font-size: 1.8rem; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    gap: 10px;
-    color: white; /* Garante que a saudação seja branca */
+      .header-panel {
+        background: rgba(15, 35, 80, 0.7);
+        backdrop-filter: blur(10px);
+        padding: 20px 40px;
+        border-radius: 50px;
+        color: white;
+        text-align: center;
+        margin-bottom: 40px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .header-panel h1 {
+        font-size: 1.8rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        color: white; /* Garante que a saudação seja branca */
+      }
+
+      /* 2. ESTILO DA SAUDAÇÃO */
+      .welcome-text {
+        color: #44bd32;
+        font-weight: bold;
+        font-size: 1.1rem;
+        margin-bottom: 5px;
+        display: block;
+      }
+
+      .header-panel h1 {
+        font-size: 1.8rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      /* ... (o restante do seu CSS continua igual) ... */
+      .menu-grid {
+        display: flex;
+        flex-wrap: wrap; /* Faz os cards pularem para a linha de baixo */
+        gap: 20px;
+        justify-content: center;
+        width: 100%;
+        max-width: 1000px; /* Limite para não espalhar demais em telas ultra-wide */
+        margin: 0 auto;
+      }
+
+      .menu-item {
+        background: rgba(15, 35, 80, 0.6);
+        backdrop-filter: blur(8px);
+        border-radius: 20px;
+        height: 150px;
+
+        /* Define o tamanho base do card (160px) mas permite que ele cresça um pouco */
+        flex: 1 1 160px;
+        max-width: 200px; /* Não deixa o card ficar esticado demais */
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        cursor: pointer;
+        text-decoration: none;
+        text-align: center;
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        transition: 0.3s;
+      }
+      .menu-item:hover {
+        transform: translateY(-5px);
+        border-color: #44bd32;
+        background: rgba(15, 35, 80, 0.8);
+      }
+      .menu-item i {
+        font-size: 2.5rem;
+        margin-bottom: 12px;
+      }
+      .menu-item span {
+        font-weight: bold;
+        font-size: 0.85rem;
+        padding: 0 5px;
+      }
+      .social-footer {
+        margin-top: 40px;
+        display: flex;
+        gap: 20px;
+      }
+      .social-icon {
+        color: white;
+        font-size: 1.5rem;
+        transition: 0.3s;
+      }
+      .social-icon:hover {
+        color: #44bd32;
+        transform: scale(1.2);
+      }
+      .footer {
+        color: white;
+        margin-top: auto; /* Empurra o footer para o fim da página se houver pouco conteúdo */
+        padding: 20px;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        font-size: 0.7rem;
+        text-align: center;
+        border-radius: 10px;
+        margin-top: 50px; /* Garante distância dos cards */
+      }
+
+      .chat-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 300px;
+    height: 400px;
+    background: rgba(15, 35, 80, 0.9);
+    backdrop-filter: blur(10px);
+    border: 1px solid #44bd32;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    z-index: 9999;
 }
 
-        /* 2. ESTILO DA SAUDAÇÃO */
-        .welcome-text {
-            color: #44bd32;
-            font-weight: bold;
-            font-size: 1.1rem;
-            margin-bottom: 5px;
-            display: block;
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+    color: white;
+    font-size: 0.8rem;
+}
+
+.chat-input {
+    padding: 10px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+}
+      @media (max-width: 550px) {
+        .menu-grid {
+          gap: 15px;
         }
-
-        .header-panel h1 { font-size: 1.8rem; display: flex; align-items: center; justify-content: center; gap: 10px; }
-        
-        /* ... (o restante do seu CSS continua igual) ... */
-        .menu-grid { display: grid; grid-template-columns: repeat(3, 160px); gap: 20px; justify-content: center; }
-        .menu-item { background: rgba(15, 35, 80, 0.6); backdrop-filter: blur(8px); border-radius: 20px; height: 150px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; cursor: pointer; text-decoration: none; text-align: center; border: 2px solid rgba(255,255,255,0.1); transition: 0.3s; }
-        .menu-item:hover { transform: translateY(-5px); border-color: #44bd32; background: rgba(15, 35, 80, 0.8); }
-        .menu-item i { font-size: 2.5rem; margin-bottom: 12px; }
-        .menu-item span { font-weight: bold; font-size: 0.85rem; padding: 0 5px; }
-        .social-footer { margin-top: 40px; display: flex; gap: 20px; }
-        .social-icon { color: white; font-size: 1.5rem; transition: 0.3s; }
-        .social-icon:hover { color: #44bd32; transform: scale(1.2); }
-        .footer { color: white; margin-top: 25px; width: 100%; background: rgba(0, 0, 0, 0.8); padding: 15px; font-size: 0.7rem; text-align: center; border-radius: 10px; }
-        @media (max-width: 550px) { .menu-grid { grid-template-columns: repeat(2, 1fr); width: 100%; max-width: 350px; } .header-panel { padding: 15px 20px; } }
+        .menu-item {
+          /* No celular, coloca 2 por linha ocupando metade da tela cada */
+          flex: 1 1 calc(50% - 20px);
+          max-width: 48%;
+          height: 130px; /* Reduz um pouco a altura no celular */
+        }
+        .header-panel {
+          padding: 15px 20px;
+        }
+      }
     </style>
-</head>
-<body>
-
+  </head>
+  <body>
     <div class="top-bar">
-        <a href="#" class="btn-logout" onclick="fazerLogout()">
-            <i class="fas fa-sign-out-alt"></i> Sair
-        </a>
+      <a href="#" class="btn-logout" onclick="fazerLogout()">
+        <i class="fas fa-sign-out-alt"></i> Sair
+      </a>
     </div>
 
     <div class="header-panel">
-    <h1 id="textoSaudacao">Portal do Cartazista</h1>
-    <p style="font-size: 0.8rem; margin-top: 5px; opacity: 0.8; letter-spacing: 1px;">O QUE DESEJA FAZER HOJE?</p>
-</div>
+      <h1 id="textoSaudacao">Portal do Cartazista</h1>
+      <p
+        style="
+          font-size: 0.8rem;
+          margin-top: 5px;
+          opacity: 0.8;
+          letter-spacing: 1px;
+        "
+      >
+        O QUE DESEJA FAZER HOJE?
+      </p>
+    </div>
 
     <div class="menu-grid">
-        <a href="https://savegnago.smarketsolutions.com.br/login" class="menu-item" target="_blank">
-            <i class="fas fa-tags"></i><span>Smarket</span>
+      <a
+        href="https://savegnago.smarketsolutions.com.br/login"
+        class="menu-item"
+        target="_blank"
+      >
+        <i class="fas fa-tags"></i><span>Smarket</span>
+      </a>
+      <div class="menu-item" onclick="aviso('Apex')">
+        <i class="fas fa-desktop"></i><span>Apex</span>
+      </div>
+      <a
+        href="https://portal.savegnago.com.br"
+        class="menu-item"
+        target="_blank"
+      >
+        <i class="fa-regular fa-address-card"></i><span>Portal Savegnago</span>
+      </a>
+      <a href="/pags/pedido_cartaz.html" class="menu-item">
+        <i class="fas fa-clipboard-list"></i><span>Pedido de Cartaz</span>
+      </a>
+      <a href="/pags/calculadora8h48m.html" class="menu-item">
+        <i class="fas fa-stopwatch"></i><span>Calculadora de Ponto</span>
+      </a>
+      <a
+        href="https://dtfaceum.com/gruposavegnago"
+        class="menu-item"
+        target="_blank"
+      >
+        <i class="fas fa-user-check"></i><span>DTFaceum</span>
+      </a>
+      <a href="/pags/notas.html" class="menu-item">
+        <i class="fas fa-notes-medical"></i><span>Bloco de Anotação</span>
+      </a>
+      <a href="https://www.photopea.com" class="menu-item" target="_blank">
+        <i class="fa-solid fa-camera"></i><span>Photopea</span>
+      </a>
+      <a href="/pags/chat.html" class="menu-item" style="border-color: #44bd32;">
+    <i class="fas fa-comments"></i>
+    <span>Chat Global</span>
         </a>
-        <a href="https://apex.savegnago.com.br/apex/f?p=107:login::::::" class="menu-item" target="_blank">
-            <i class="fas fa-tags"></i><span>Apex</span>
-        </a>
-        <a href="https://portaldocolaborador.savegnago.com.br/portal/01/ISPortalColaborador" class="menu-item" target="_blank">
-            <i class="fa-regular fa-address-card"></i><span>Portal Savegnago (Novo)</span>
-        </a>
-        <a href="https://portal.savegnago.com.br" class="menu-item" target="_blank">
-            <i class="fa-regular fa-address-card"></i><span>Portal Savegnago (Antigo)</span>
-        </a>
-        <a href="/pags/pedido_cartaz.html" class="menu-item">
-            <i class="fas fa-clipboard-list"></i><span>Pedido de Cartaz</span>
-        </a>
-        <a href="/pags/calculadora8h48m.html" class="menu-item">
-            <i class="fas fa-stopwatch"></i><span>Calculadora de Ponto</span>
-        </a>
-        <a href="https://dtfaceum.com/gruposavegnago" class="menu-item" target="_blank">
-            <i class="fas fa-user-check"></i><span>DTFaceum</span>
-        </a>
-        <a href="/pags/notas.html" class="menu-item">
-            <i class="fas fa-notes-medical"></i><span>Bloco de Anotação</span>
-        </a>
-        <a href="https://www.photopea.com" class="menu-item" target="_blank">
-            <i class="fa-solid fa-camera"></i><span>Photopea</span>
-        </a>
+      <a href="#" class="menu-item" target="_blank">
+        <i class=""></i><span>Tem Novidade Chegando....</span>
+      </a>
     </div>
-    
+
+    </div> 
+
     <div class="footer">
-      <P>Copyright &copy; 2026 || 19/02/2026</P>
-      <P>Criado e Desenvolvido Por Vinicius Viana Cartazista da Loja 62</P>
+      <p>Copyright &copy; 2026 || 19/02/2026</p>
+      <p>Criado e Desenvolvido Por Vinicius Viana Cartazista da Loja 62</p>
     </div>
 
     <script>
-        // CARREGA O NOME DO USUÁRIO AO ABRIR A PÁGINA
-    window.onload = function() {
-        const nome = sessionStorage.getItem('nomeUsuario');
-        const saudacaoElemento = document.getElementById('textoSaudacao');
-        
+      // CARREGA O NOME DO USUÁRIO AO ABRIR A PÁGINA
+      window.onload = function () {
+        const nome = sessionStorage.getItem("nomeUsuario");
+        const saudacaoElemento = document.getElementById("textoSaudacao");
+
         if (nome) {
-            // Substitui o título pelo nome do usuário em branco
-            saudacaoElemento.innerText = "Olá, " + nome;
+          // Substitui o título pelo nome do usuário em branco
+          saudacaoElemento.innerText = "Olá, " + nome;
         }
-    };
+      };
 
-    // FUNÇÃO DE LOGOUT
-    function fazerLogout() {
-        sessionStorage.clear(); 
-        window.location.href = "../index.html"; 
-    }
+      // FUNÇÃO DE LOGOUT
+      function fazerLogout() {
+        sessionStorage.clear();
+        window.location.href = "../index.html";
+      }
 
-    function aviso(nome) {
-        alert("A seção '" + nome + "' ainda está em Desenvolvimento pela Loja 62.");
-    }
+      function aviso(nome) {
+        alert(
+          "A seção '" + nome + "' ainda está em Desenvolvimento pela Loja 62.",
+        );
+      }
     </script>
 
     <script>
-        window.formbutton=window.formbutton||function(){(formbutton.q=formbutton.q||[]).push(arguments)};
-        
-        formbutton("create", {
-            action: "https://formspree.io/f/xojnlrlb",
-            title: "Suporte do Portal",
-            fields: [
-                {
-                    type: "text",
-                    label: "Seu Nome:",
-                    name: "nome",
-                    required: true,
-                    placeholder: sessionStorage.getItem('nomeUsuario') || "Fulano da Silva",
-                },
-                {
-                    type: "text",
-                    label: "Sua Loja:",
-                    name: "loja",
-                    required: true,
-                    placeholder: "Loja 62",
-                },
-                { 
-                    type: "email", 
-                    label: "Email:", 
-                    name: "email",
-                    required: true,
-                    placeholder: "seu@email.com"
-                },
-                {
-                    type: "textarea",
-                    label: "Mensagem:",
-                    name: "message",
-                    required: true,
-                    placeholder: "Qual sua dúvida?",
-                },
-                { 
-                    type: "submit", 
-                    label: "Enviar" 
-                }      
-            ],
-            styles: {
-                title: { backgroundColor: "#0f2350" },
-                button: { backgroundColor: "#44bd32" }
-            }
-        });
+      window.formbutton =
+        window.formbutton ||
+        function () {
+          (formbutton.q = formbutton.q || []).push(arguments);
+        };
+
+      formbutton("create", {
+        action: "https://formspree.io/f/xojnlrlb",
+        title: "Suporte do Portal",
+        fields: [
+          {
+            type: "text",
+            label: "Seu Nome:",
+            name: "nome",
+            required: true,
+            placeholder:
+              sessionStorage.getItem("nomeUsuario") || "Fulano da Silva",
+          },
+          {
+            type: "text",
+            label: "Sua Loja:",
+            name: "loja",
+            required: true,
+            placeholder: "Loja 62",
+          },
+          {
+            type: "email",
+            label: "Email:",
+            name: "email",
+            required: true,
+            placeholder: "seu@email.com",
+          },
+          {
+            type: "textarea",
+            label: "Mensagem:",
+            name: "message",
+            required: true,
+            placeholder: "Qual sua dúvida?",
+          },
+          {
+            type: "submit",
+            label: "Enviar",
+          },
+        ],
+        styles: {
+          title: { backgroundColor: "#0f2350" },
+          button: { backgroundColor: "#44bd32" },
+        },
+      });
     </script>
-
-    </body>
+  </body>
 </html>
-
-
-

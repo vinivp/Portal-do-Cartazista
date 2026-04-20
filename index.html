@@ -288,138 +288,105 @@
     </div>
 
     <script type="module">
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-      import {
-        getAuth,
-        signInWithEmailAndPassword,
-        updateProfile,
-      } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import {
+    getAuth,
+    signInWithEmailAndPassword,
+    updateProfile,
+  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-      // Configuração do Firebase
-      const firebaseConfig = {
-        apiKey: "AIzaSyB-Zz9fdr3rQzM-COyWoUA9_egkHfSXKfE",
-        authDomain: "portal-cartazista.firebaseapp.com",
-        projectId: "portal-cartazista",
-        storageBucket: "portal-cartazista.firebasestorage.app",
-        messagingSenderId: "1095457028300",
-        appId: "1:1095457028300:web:997edfb47a1d2e8f54ea69",
-      };
+  // Configuração do Firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyB-Zz9fdr3rQzM-COyWoUA9_egkHfSXKfE",
+    authDomain: "portal-cartazista.firebaseapp.com",
+    projectId: "portal-cartazista",
+    storageBucket: "portal-cartazista.firebasestorage.app",
+    messagingSenderId: "1095457028300",
+    appId: "1:1095457028300:web:997edfb47a1d2e8f54ea69",
+  };
 
-      const app = initializeApp(firebaseConfig);
-      const auth = getAuth(app);
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
 
-      // Dicionário gerado automaticamente da Loja 01 à Loja 65
-      const tabelaNomes = {};
+  // Dicionário gerado automaticamente da Loja 01 à Loja 65
+  const tabelaNomes = {};
 
-      for (let i = 1; i <= 65; i++) {
-        const numeroLoja = i.toString().padStart(2, "0");
-        const email = `loja${numeroLoja}.areavenda@savegnago.com.br`;
-        tabelaNomes[email] = "Sem Nome";
+  for (let i = 1; i <= 65; i++) {
+    const numeroLoja = i.toString().padStart(2, "0");
+    const email = `loja${numeroLoja}.areavenda@savegnago.com.br`;
+    tabelaNomes[email] = "Sem Nome";
+  }
+
+  // Personalize os nomes conhecidos aqui (Eles aparecerão no Dashboard e Chat)
+  tabelaNomes["loja62.areavenda@savegnago.com.br"] = "Vinícius Viana";
+  tabelaNomes["loja13.areavenda@savegnago.com.br"] = "Isisson de Oliveira";
+
+  window.iniciarLogin = async function () {
+    const userDigitado = document.getElementById("usuario").value.trim().toLowerCase();
+    const senhaDigitada = document.getElementById("senha").value.trim();
+    const overlay = document.getElementById("loading-overlay");
+    const erroDiv = document.getElementById("mensagemErro");
+
+    if (!userDigitado || !senhaDigitada) {
+      erroDiv.style.display = "block";
+      erroDiv.innerText = "Preencha todos os campos!";
+      return;
+    }
+
+    overlay.style.display = "flex";
+    erroDiv.style.display = "none";
+
+    // AJUSTADO: Agora completa com o domínio correto da sua rede
+    const emailCompleto = userDigitado.includes("@")
+      ? userDigitado
+      : `${userDigitado}.areavenda@savegnago.com.br`;
+
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, emailCompleto, senhaDigitada);
+      const user = userCredential.user;
+
+      // Sincroniza o Nome Real com o Firebase Auth
+      const nomeReal = tabelaNomes[user.email.toLowerCase()];
+      if (nomeReal && !user.displayName) {
+        await updateProfile(user, { displayName: nomeReal });
       }
 
-      // Personalize os nomes conhecidos aqui (Eles aparecerão no Dashboard e Chat)
-      tabelaNomes["loja62.areavenda@savegnago.com.br"] = "Vinícius Viana (Dev. do portal);
-      tabelaNomes["loja13.areavenda@savegnago.com.br"] = "Isisson de Oliveira";
+      // Salva na sessão para uso rápido e redireciona
+      sessionStorage.setItem("logado", "true");
+      sessionStorage.setItem(
+        "nomeUsuario",
+        user.displayName || nomeReal || userDigitado.toUpperCase()
+      );
 
-      window.iniciarLogin = async function () {
-        const userDigitado = document
-          .getElementById("usuario")
-          .value.trim()
-          .toLowerCase();
-        const senhaDigitada = document.getElementById("senha").value.trim();
-        const overlay = document.getElementById("loading-overlay");
-        const erroDiv = document.getElementById("mensagemErro");
+      window.location.href = "/pags/dashboard.html";
+    } catch (error) {
+      overlay.style.display = "none";
+      erroDiv.style.display = "block";
+      erroDiv.innerText = "Loja ou senha incorretos!";
+      console.error("Erro Firebase:", error.code);
+    }
+  };
 
-        if (!userDigitado || !senhaDigitada) {
-          erroDiv.style.display = "block";
-          erroDiv.innerText = "Preencha todos os campos!";
-          return;
-        }
+  /* Configuração do Formbutton (Suporte) */
+  window.formbutton = window.formbutton || function () {
+    (formbutton.q = formbutton.q || []).push(arguments);
+  };
 
-        overlay.style.display = "flex";
-        erroDiv.style.display = "none";
-
-        // AJUSTADO: Agora completa com o domínio correto da sua rede
-        const emailCompleto = userDigitado.includes("@")
-          ? userDigitado
-          : `${userDigitado}.areavenda@savegnago.com.br`;
-
-        try {
-          const userCredential = await signInWithEmailAndPassword(
-            auth,
-            emailCompleto,
-            senhaDigitada,
-          );
-          const user = userCredential.user;
-
-          // Sincroniza o Nome Real com o Firebase Auth
-          const nomeReal = tabelaNomes[user.email.toLowerCase()];
-          if (nomeReal && !user.displayName) {
-            await updateProfile(user, { displayName: nomeReal });
-          }
-
-          // Salva na sessão para uso rápido e redireciona
-          sessionStorage.setItem("logado", "true");
-          sessionStorage.setItem(
-            "nomeUsuario",
-            user.displayName || nomeReal || userDigitado.toUpperCase(),
-          );
-
-          window.location.href = "/pags/dashboard.html";
-        } catch (error) {
-          overlay.style.display = "none";
-          erroDiv.style.display = "block";
-          erroDiv.innerText = "Loja ou senha incorretos!";
-          console.error("Erro Firebase:", error.code);
-        }
-      };
-
-      /* Configuração do Formbutton (Suporte) */
-      window.formbutton =
-        window.formbutton ||
-        function () {
-          (formbutton.q = formbutton.q || []).push(arguments);
-        };
-
-      formbutton("create", {
-        action: "https://formspree.io/f/xojnlrlb",
-        title: "Suporte do Portal",
-        fields: [
-          {
-            type: "text",
-            label: "Qual o Seu Nome?:",
-            name: "nome",
-            required: true,
-            placeholder: "Fulano da Silva",
-          },
-          {
-            type: "text",
-            label: "Qual a Sua Loja?:",
-            name: "loja",
-            required: true,
-            placeholder: "Loja 00",
-          },
-          {
-            type: "email",
-            label: "Email:",
-            name: "email",
-            required: true,
-            placeholder: "seu@email.com",
-          },
-          {
-            type: "textarea",
-            label: "Mensagem:",
-            name: "message",
-            required: true,
-            placeholder: "Qual sua dúvida?",
-          },
-          { type: "submit", label: "Enviar" },
-        ],
-        styles: {
-          title: { backgroundColor: "Blue" },
-          button: { backgroundColor: "green" },
-        },
-      });
-    </script>
+  formbutton("create", {
+    action: "https://formspree.io/f/xojnlrlb",
+    title: "Suporte do Portal",
+    fields: [
+      { type: "text", label: "Qual o Seu Nome?:", name: "nome", required: true, placeholder: "Fulano da Silva" },
+      { type: "text", label: "Qual a Sua Loja?:", name: "loja", required: true, placeholder: "Loja 00" },
+      { type: "email", label: "Email:", name: "email", required: true, placeholder: "seu@email.com" },
+      { type: "textarea", label: "Mensagem:", name: "message", required: true, placeholder: "Qual sua dúvida?" },
+      { type: "submit", label: "Enviar" },
+    ],
+    styles: {
+      title: { backgroundColor: "Blue" },
+      button: { backgroundColor: "green" },
+    },
+  });
+</script>
   </body>
 </html>

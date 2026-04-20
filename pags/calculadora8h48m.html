@@ -295,6 +295,22 @@
                 button: { backgroundColor: "#44bd32" }
             }
         });
+
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+const auth = getAuth();
+
+// Esta função fica "vigiando" o acesso
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    // Se não tiver um usuário logado no Firebase, expulsa para o login
+    window.location.href = "../login.html"; 
+  } else {
+    console.log("Usuário autenticado:", user.email);
+    // Aqui você pode até atualizar o nome do usuário na tela automaticamente
+    // sessionStorage.setItem("nomeUsuario", user.email.split('@')[0]);
+  }
+});
     </script>
 </body>
 </html>

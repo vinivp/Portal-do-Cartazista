@@ -1,241 +1,419 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
-    <link rel="apple-touch-icon" href="/imagem/LogoApp.png">
-    <link rel="icon" type="image/png" href="/imagem/LogoApp.png">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <link rel="apple-touch-icon" href="/imagem/LogoApp.png" />
+    <link rel="icon" type="image/png" href="/imagem/LogoApp.png" />
     <title>Portal do Cartazista - Loja 62</title>
     <script src="https://formspree.io/js/formbutton-v1.min.js" defer></script>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", sans-serif;
+      }
 
-        body {
-            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/imagem/frente01loja62.png');
-            background-size: cover; background-position: center; background-attachment: fixed;
-            min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            color: white; padding: 15px;
+      body {
+        background:
+          linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+          url("/imagem/frente01loja62.png");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        padding: 15px;
+      }
+
+      .header-title {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .header-title h1 {
+        font-size: clamp(1.5rem, 7vw, 2.5rem);
+      }
+      #subtitulo {
+        font-size: clamp(0.8rem, 4vw, 1.1rem);
+        margin-top: 5px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #ffffff;
+        font-weight: bold;
+      }
+
+      .glass-panel {
+        background: rgba(15, 35, 80, 0.7);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        padding: clamp(20px, 5vw, 40px);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        width: 100%;
+        max-width: 400px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        text-align: center;
+      }
+
+      .input-group {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 15px;
+        text-align: left;
+      }
+      .input-group label {
+        font-size: 0.9rem;
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+      .input-group input {
+        width: 100%;
+        padding: 12px;
+        border-radius: 10px;
+        border: none;
+        font-size: 1.1rem;
+        text-align: center;
+        color: #333;
+        font-weight: bold;
+        outline: none;
+      }
+
+      .btn {
+        width: 100%;
+        padding: 12px;
+        border-radius: 12px;
+        border: none;
+        font-weight: bold;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: 0.2s;
+        margin-top: 10px;
+      }
+      .btn-green {
+        background-color: #44bd32;
+        color: white;
+      }
+      .btn-white {
+        background-color: white;
+        color: #2f3640;
+        font-size: 0.8rem;
+      }
+
+      .hidden {
+        display: none;
+      }
+      #mensagemErro {
+        background: rgba(255, 0, 0, 0.5);
+        padding: 10px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        border: 1px solid #ff4444;
+        display: none;
+        color: white;
+        font-size: 0.9rem;
+        font-weight: bold;
+      }
+      .footer {
+        color: white;
+        margin-top: 25px;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        padding: 15px;
+        font-size: 0.7rem;
+        text-align: center;
+        border-radius: 10px;
+      }
+
+      /* LOADING OVERLAY */
+      #loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(15, 35, 80, 0.95);
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        backdrop-filter: blur(10px);
+      }
+      .spinner {
+        width: 60px;
+        height: 60px;
+        border: 6px solid rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        border-top-color: #44bd32;
+        animation: spin 1s linear infinite;
+        margin-bottom: 20px;
+      }
+
+      /* Estilo para imagens no chat com suporte a transparência */
+      .msg img {
+        max-width: 100%;
+        border-radius: 10px;
+        margin-top: 5px;
+        display: block;
+        cursor: pointer;
+        background-image:
+          linear-gradient(45deg, #333 25%, transparent 25%),
+          linear-gradient(-45deg, #333 25%, transparent 25%),
+          linear-gradient(45deg, transparent 75%, #333 75%),
+          linear-gradient(-45deg, transparent 75%, #333 75%);
+        background-size: 10px 10px;
+        background-position:
+          0 0,
+          0 5px,
+          5px -5px,
+          -5px 0px;
+        background-color: #444; /* Fundo escuro sutil para destacar o transparente */
+      }
+
+      .btn-download {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 0.7rem;
+        margin-top: 5px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        transition: 0.3s;
+      }
+
+      .btn-download:hover {
+        background: #44bd32;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
         }
+      }
+      .loading-text {
+        font-weight: bold;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+      }
 
-        .header-title { text-align: center; margin-bottom: 20px; }
-        .header-title h1 { font-size: clamp(1.5rem, 7vw, 2.5rem); }
-        #subtitulo { font-size: clamp(0.8rem, 4vw, 1.1rem); margin-top: 5px; text-transform: uppercase; letter-spacing: 1px; color: #ffffff; font-weight: bold;}
+      .footer {
+        margin-top: 25px;
+        text-align: center;
+        font-size: 0.7rem;
+        opacity: 0.8;
+        background: rgba(0, 0, 0, 0.4);
+        padding: 10px;
+        border-radius: 8px;
+      }
 
-        .glass-panel {
-            background: rgba(15, 35, 80, 0.7); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            padding: clamp(20px, 5vw, 40px); border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1);
-            width: 100%; max-width: 400px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); text-align: center;
+      .shake {
+        animation: shake 0.5s linear;
+      }
+      @keyframes shake {
+        0%,
+        100% {
+          transform: translateX(0);
         }
-
-        .input-group { display: flex; flex-direction: column; margin-bottom: 15px; text-align: left; }
-        .input-group label { font-size: 0.9rem; font-weight: bold; margin-bottom: 5px; }
-        .input-group input { 
-            width: 100%; padding: 12px; border-radius: 10px; border: none; font-size: 1.1rem; 
-            text-align: center; color: #333; font-weight: bold; outline: none;
+        20%,
+        60% {
+          transform: translateX(-10px);
         }
-
-        .btn { width: 100%; padding: 12px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; font-size: 1rem; transition: 0.2s; margin-top: 10px; }
-        .btn-green { background-color: #44bd32; color: white; }
-        .btn-white { background-color: white; color: #2f3640; font-size: 0.8rem; }
-        
-        .hidden { display: none; }
-        #mensagemErro { background: rgba(255, 0, 0, 0.5); padding: 10px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #ff4444; display: none; color: white; font-size: 0.9rem; font-weight: bold; }
-        .footer { color: white; margin-top: 25px; width: 100%; background: rgba(0, 0, 0, 0.8); padding: 15px; font-size: 0.7rem; text-align: center; border-radius: 10px; }
-
-        /* LOADING OVERLAY */
-        #loading-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 35, 80, 0.95); display: none;
-            flex-direction: column; align-items: center; justify-content: center;
-            z-index: 1000; backdrop-filter: blur(10px);
+        40%,
+        80% {
+          transform: translateX(10px);
         }
-        .spinner {
-            width: 60px; height: 60px; border: 6px solid rgba(255, 255, 255, 0.1);
-            border-radius: 50%; border-top-color: #44bd32;
-            animation: spin 1s linear infinite; margin-bottom: 20px;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .loading-text { font-weight: bold; letter-spacing: 2px; text-transform: uppercase; }
-
-        .footer { margin-top: 25px; text-align: center; font-size: 0.7rem; opacity: 0.8; background: rgba(0,0,0,0.4); padding: 10px; border-radius: 8px; }
-        
-        .shake { animation: shake 0.5s linear; }
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            20%, 60% { transform: translateX(-10px); }
-            40%, 80% { transform: translateX(10px); }
-        }
+      }
     </style>
-</head>
-<body>
-
+  </head>
+  <body>
     <div id="loading-overlay">
-        <div class="spinner"></div>
-        <p class="loading-text">Validando Acesso...</p>
+      <div class="spinner"></div>
+      <p class="loading-text">Validando Acesso...</p>
     </div>
 
     <div class="header-title">
-        <h1>Portal do Cartazista</h1>
-        <p id="subtitulo">FAÇA SEU LOGIN PARA ACESSAR!</p>
+      <h1>Portal do Cartazista</h1>
+      <p id="subtitulo">FAÇA SEU LOGIN PARA ACESSAR!</p>
     </div>
 
     <div id="tela-login" class="glass-panel">
-        <div id="mensagemErro"></div>
-        
-        <div class="input-group">
-            <label>Sua Loja:</label>
-            <input type="text" id="usuario" placeholder="Ex: Loja62">
-        </div>
-        <div class="input-group">
-            <label>Senha:</label>
-            <input type="password" id="senha" placeholder="••••••">
-        </div>
-        
-        <button type="button" onclick="iniciarLogin()" class="btn btn-green">ENTRAR NO PORTAL</button>
-        <button type="button" class="btn btn-white" onclick="irParaRH()">PRIMEIRO ACESSO?</button>
+      <div id="mensagemErro"></div>
+
+      <div class="input-group">
+        <label>Sua Loja:</label>
+        <input type="text" id="usuario" placeholder="Ex: Loja62" />
+      </div>
+      <div class="input-group">
+        <label>Senha:</label>
+        <input type="password" id="senha" placeholder="••••••" />
+      </div>
+
+      <button type="button" onclick="iniciarLogin()" class="btn btn-green">
+        ENTRAR NO PORTAL
+      </button>
+      <button type="button" class="btn btn-white" onclick="irParaRH()">
+        PRIMEIRO ACESSO?
+      </button>
     </div>
 
     <div id="tela-rh" class="glass-panel hidden">
-        <h2 style="margin-bottom: 20px;">Atenção</h2>
-        <p style="margin-bottom: 20px;">Por gentileza, procure o suporte técnico para liberar seu acesso inicial ou resetar sua senha.</p>
-        <button class="btn btn-green" onclick="voltar()">VOLTAR PARA LOGIN</button>
+      <h2 style="margin-bottom: 20px">Atenção</h2>
+      <p style="margin-bottom: 20px">
+        Por gentileza, procure o suporte técnico para liberar seu acesso inicial
+        ou resetar sua senha.
+      </p>
+      <button class="btn btn-green" onclick="voltar()">
+        VOLTAR PARA LOGIN
+      </button>
     </div>
 
     <div class="footer">
-      <P>Copyright &copy; 2026 || 19/02/2026</P>
-      <P>Criado e Desenvolvido Por Vinicius Viana Cartazista da Loja 62</P>
+      <p>Copyright &copy; 2026 || 19/02/2026</p>
+      <p>Criado e Desenvolvido Por Vinicius Viana Cartazista da Loja 62</p>
     </div>
 
-    <script>
-        // --- NOSSO "BANCO DE DADOS" DE USUÁRIOS ---
-        const usuariosDB = [
-            { matricula: "loja62", senha: "Cartaz123", nome: "Vinícius Viana" },
-            { matricula: "loja13", senha: "Trocar123", nome: "Isisson de Oliveira" },
-            { matricula: "loja20", senha: "Trocar123", nome: "Fernanda Silva" },
-            { matricula: "loja26", senha: "Trocar123", nome: "Fernanda" },
-            { matricula: "loja44", senha: "Trocar123", nome: "Leandro Almeida" },
-            { matricula: "loja05", senha: "Trocar123", nome: "Alissandra" },
-        ];
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+      import {
+        getAuth,
+        signInWithEmailAndPassword,
+        updateProfile,
+      } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-        function iniciarLogin() {
-            const userDigitado = document.getElementById('usuario').value.trim();
-            const senhaDigitada = document.getElementById('senha').value.trim();
-            const overlay = document.getElementById('loading-overlay');
-            const erroDiv = document.getElementById('mensagemErro');
-            const telaLogin = document.getElementById('tela-login');
+      // Configuração do Firebase
+      const firebaseConfig = {
+        apiKey: "AIzaSyB-Zz9fdr3rQzM-COyWoUA9_egkHfSXKfE",
+        authDomain: "portal-cartazista.firebaseapp.com",
+        projectId: "portal-cartazista",
+        storageBucket: "portal-cartazista.firebasestorage.app",
+        messagingSenderId: "1095457028300",
+        appId: "1:1095457028300:web:997edfb47a1d2e8f54ea69",
+      };
 
-            // 1. Validação básica de campos vazios
-            if (userDigitado === "" || senhaDigitada === "") {
-                erroDiv.style.display = "block";
-                erroDiv.innerText = "Preencha todos os campos!";
-                return;
-            }
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
 
-            // 2. Mostra o Loading Overlay
-            overlay.style.display = 'flex';
-            erroDiv.style.display = "none";
+      // Dicionário para transformar e-mails em nomes reais
+      const tabelaNomes = {
+        "loja62.areavenda@savegnago.com.br": "Vinícius Viana",
+        "loja13.areavenda@savegnago.com.br": "Isisson de Oliveira",
+        // Adicione os outros cartazistas aqui conforme necessário
+      };
 
-            // 3. Simula tempo de processamento (1.5 segundos)
-            setTimeout(() => {
-                // Busca o usuário no "Banco de Dados"
-                const usuarioEncontrado = usuariosDB.find(u => 
-                    u.matricula === userDigitado && u.senha === senhaDigitada
-                );
+      window.iniciarLogin = async function () {
+        const userDigitado = document
+          .getElementById("usuario")
+          .value.trim()
+          .toLowerCase();
+        const senhaDigitada = document.getElementById("senha").value.trim();
+        const overlay = document.getElementById("loading-overlay");
+        const erroDiv = document.getElementById("mensagemErro");
 
-                if (usuarioEncontrado) {
-                    // SUCESSO: Salva os dados na sessão
-                    sessionStorage.setItem('logado', 'true');
-                    sessionStorage.setItem('nomeUsuario', usuarioEncontrado.nome);
-                    
-                    // Redireciona para o dashboard
-                    window.location.href = "/pags/dashboard.html"; 
-                } else {
-                    // ERRO: Esconde loading e avisa o usuário
-                    overlay.style.display = 'none';
-                    erroDiv.style.display = "block";
-                    erroDiv.innerText = "Matrícula ou senha incorretos!";
-                    
-                    // Efeito Shake de erro
-                    telaLogin.classList.add('shake');
-                    setTimeout(() => telaLogin.classList.remove('shake'), 500);
-                }
-            }, 1500);
+        if (!userDigitado || !senhaDigitada) {
+          erroDiv.style.display = "block";
+          erroDiv.innerText = "Preencha todos os campos!";
+          return;
         }
 
-        // Funções de Navegação da Interface
-        function irParaRH() {
-            document.getElementById('tela-login').classList.add('hidden');
-            document.getElementById('tela-rh').classList.remove('hidden');
-            document.getElementById('subtitulo').innerText = "SUPORTE AO ACESSO";
-        }
+        overlay.style.display = "flex";
+        erroDiv.style.display = "none";
 
-        function voltar() {
-            document.getElementById('tela-rh').classList.add('hidden');
-            document.getElementById('tela-login').classList.remove('hidden');
-            document.getElementById('subtitulo').innerText = "FAÇA SEU LOGIN PARA ACESSAR!";
-        }
+        // Mantém a flexibilidade: aceita o usuário curto ou o e-mail completo
+        const emailCompleto = userDigitado.includes("@")
+          ? userDigitado
+          : `${userDigitado}@portal.com`;
 
-        // Atalho: Tecla Enter para logar
-        document.addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') { iniciarLogin(); }
-        });
+        try {
+          const userCredential = await signInWithEmailAndPassword(
+            auth,
+            emailCompleto,
+            senhaDigitada,
+          );
+          const user = userCredential.user;
+
+          // Sincroniza o Nome Real com o Firebase se ainda não estiver configurado
+          const nomeReal = tabelaNomes[user.email.toLowerCase()];
+          if (nomeReal && !user.displayName) {
+            await updateProfile(user, { displayName: nomeReal });
+          }
+
+          // Salva na sessão para uso rápido e redireciona
+          sessionStorage.setItem("logado", "true");
+          sessionStorage.setItem(
+            "nomeUsuario",
+            user.displayName || nomeReal || userDigitado.toUpperCase(),
+          );
+
+          window.location.href = "/pags/dashboard.html";
+        } catch (error) {
+          overlay.style.display = "none";
+          erroDiv.style.display = "block";
+          erroDiv.innerText = "Loja ou senha incorretos!";
+          console.error("Erro Firebase:", error.code);
+        }
+      };
+
+      /* Configuração do Formbutton (Suporte) */
+      window.formbutton =
+        window.formbutton ||
+        function () {
+          (formbutton.q = formbutton.q || []).push(arguments);
+        };
+
+      formbutton("create", {
+        action: "https://formspree.io/f/xojnlrlb",
+        title: "Suporte do Portal",
+        fields: [
+          {
+            type: "text",
+            label: "Qual o Seu Nome?:",
+            name: "nome",
+            required: true,
+            placeholder: "Fulano da Silva",
+          },
+          {
+            type: "text",
+            label: "Qual a Sua Loja?:",
+            name: "loja",
+            required: true,
+            placeholder: "Loja 00",
+          },
+          {
+            type: "email",
+            label: "Email:",
+            name: "email",
+            required: true,
+            placeholder: "seu@email.com",
+          },
+          {
+            type: "textarea",
+            label: "Mensagem:",
+            name: "message",
+            required: true,
+            placeholder: "Qual sua dúvida?",
+          },
+          { type: "submit", label: "Enviar" },
+        ],
+        styles: {
+          title: { backgroundColor: "Blue" },
+          button: { backgroundColor: "green" },
+        },
+      });
     </script>
-
-    <script>
-        /* paste this line in verbatim */
-  window.formbutton=window.formbutton||function(){(formbutton.q=formbutton.q||[]).push(arguments)};
-  /* customize formbutton below*/     
-  formbutton("create", {
-    action: "https://formspree.io/f/xojnlrlb",
-    title: "Suporte do Portal",
-    fields: [
-     {
-        type: "text",
-        label: "Qual o Seu Nome?:",
-        name: "nome",
-        required: true,
-        placeholder: "Fulano da Silva",
-      },
-      {
-        type: "text",
-        label: "Qual a Sua Loja?:",
-        name: "loja",
-        required: true,
-        placeholder: "Loja 00",
-      },
-      { 
-        type: "email", 
-        label: "Email:", 
-        name: "email",
-        required: true,
-        placeholder: "seu@email.com"
-      },
-      {
-        type: "textarea",
-        label: "Mensagem:",
-        name: "message",
-        required: true,
-        placeholder: "Qual sua dúvida?",
-      },
-      { 
-        type: "submit", 
-        label: "Enviar" 
-    }      
-    ],
-    styles: {
-      title: {
-        backgroundColor: "Blue"
-      },
-      button: {
-        backgroundColor: "green"
-      }
-    }
-  });
-    </script>
-
-</body>
+  </body>
 </html>
-

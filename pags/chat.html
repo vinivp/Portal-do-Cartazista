@@ -1,191 +1,119 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chat Global - Loja 62</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Global - Portal Cartazista</title>
 
+    <script>
+        if (sessionStorage.getItem('logado') !== 'true') {
+            window.location.href = "../index.html";
+        }
+    </script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-      /* ... Seus estilos base ... */
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: "Segoe UI", sans-serif;
-      }
-      body {
-        background:
-          linear-gradient(rgba(15, 35, 80, 0.8), rgba(15, 35, 80, 0.8)),
-          url("/imagem/frente01loja62.png");
-        background-size: cover;
-        height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        
+        body {
+            background: url('/imagem/FundoBranco.avif') no-repeat center center fixed;
+            background-size: cover; min-height: 100vh; display: flex; flex-direction: column;
+        }
 
-      .chat-container {
-        width: 90%;
-        max-width: 500px;
-        height: 80vh;
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(15px);
-        border-radius: 20px;
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-      }
+        /* CABEÇALHO PADRÃO */
+        .header-top {
+            background: url('/imagem/FundoAzulEscuro.jpg') center center;
+            background-size: cover; height: 80px; display: flex; align-items: center;
+            justify-content: space-between; padding: 0 30px; color: white; border-bottom: 4px solid #cc0000;
+        }
 
-      .chat-header {
-        background: #44bd32;
-        color: white;
-        padding: 15px;
-        text-align: center;
-        font-weight: bold;
-      }
-      #chat-messages {
-        flex: 1;
-        overflow-y: auto;
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
+        .header-left { display: flex; align-items: center; gap: 15px; }
+        .logo-small { height: 45px; object-fit: contain; }
+        .page-name { font-size: 1.4rem; font-weight: bold; text-transform: uppercase; }
 
-      /* Estilo para imagens com fundo xadrez (transparência) */
-      .msg img {
-        max-width: 100%;
-        border-radius: 10px;
-        margin-top: 5px;
-        display: block;
-        cursor: pointer;
-        background-image:
-          linear-gradient(45deg, #333 25%, transparent 25%),
-          linear-gradient(-45deg, #333 25%, transparent 25%),
-          linear-gradient(45deg, transparent 75%, #333 75%),
-          linear-gradient(-45deg, transparent 75%, #333 75%);
-        background-size: 10px 10px;
-        background-position:
-          0 0,
-          0 5px,
-          5px -5px,
-          -5px 0px;
-        background-color: #444;
-      }
+        .header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
+        .user-name { font-size: 0.75rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; color: white; }
+        .btn-home { color: white; text-decoration: none; font-size: 0.9rem; font-weight: bold; transition: 0.3s; }
+        .btn-home:hover { color: #44bd32; }
 
-      /* Balões de mensagem */
-      .msg {
-        background: rgba(255, 255, 255, 0.2);
-        padding: 10px;
-        border-radius: 10px;
-        max-width: 80%;
-        color: white;
-      }
-      .msg b {
-        color: #44bd32;
-        display: block;
-        font-size: 0.7rem;
-        margin-bottom: 3px;
-      }
-      .minha-msg {
-        align-self: flex-end;
-        background: #44bd32;
-      }
-      .minha-msg b {
-        color: #0f2350;
-      }
+        /* CONTEÚDO PADRONIZADO */
+        .main-container { flex: 1; padding: 20px; display: flex; justify-content: center; align-items: flex-start; }
+        
+        .content-box {
+            background: rgba(255, 255, 255, 0.95); width: 100%; max-width: 900px;
+            border-radius: 20px; padding: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); border: 1px solid #e0e0e0;
+            display: flex; flex-direction: column; height: 75vh; /* Altura fixa para o chat caber */
+        }
 
-      /* Ações lado a lado (Botão Baixar e Lixeira) */
-      .msg-actions {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        margin-top: 8px;
-        padding-top: 5px;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-      }
+        .modulo-title { color: #002855; border-left: 5px solid #cc0000; padding-left: 15px; margin-bottom: 15px; font-size: 1.4rem; font-weight: bold; }
 
-      .btn-download {
-        background: transparent;
-        color: white;
-        border: none;
-        cursor: pointer;
-        font-size: 0.75rem;
-        display: flex;
-        align-items: center;
-        gap: 5px;
-        opacity: 0.8;
-      }
-      .btn-delete {
-        color: white;
-        opacity: 0.5;
-        cursor: pointer;
-        font-size: 0.8rem;
-      }
-      .btn-delete:hover {
-        color: #ff4757;
-        opacity: 1;
-      }
+        /* ÁREA DE MENSAGENS */
+        #chat-messages {
+            flex: 1; overflow-y: auto; padding: 15px; background: #f8f9fa; border-radius: 12px;
+            border: 1px solid #ddd; display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px;
+        }
 
-      .chat-input-area {
-        padding: 15px;
-        background: rgba(0, 0, 0, 0.3);
-        display: flex;
-        gap: 10px;
-      }
-      input[type="text"] {
-        flex: 1;
-        padding: 12px;
-        border-radius: 25px;
-        border: none;
-        outline: none;
-      }
-      .btn-send {
-        background: #44bd32;
-        color: white;
-        border: none;
-        width: 45px;
-        height: 45px;
-        border-radius: 50%;
-        cursor: pointer;
-      }
+        /* BALÕES DE MENSAGEM MELHORADOS */
+        .msg { padding: 10px 15px; border-radius: 15px; max-width: 75%; background: #e9ecef; color: #333; position: relative; box-shadow: 2px 2px 5px rgba(0,0,0,0.05); }
+        .msg b { display: block; font-size: 0.7rem; color: #cc0000; margin-bottom: 4px; text-transform: uppercase; }
+        
+        .minha-msg { align-self: flex-end; background: #002855; color: white; }
+        .minha-msg b { color: #44bd32; }
+
+        .msg img { max-width: 100%; border-radius: 8px; margin-top: 5px; cursor: pointer; border: 1px solid rgba(0,0,0,0.1); }
+
+        /* INPUT E BOTÕES */
+        .chat-input-area { display: flex; gap: 10px; align-items: center; background: #eee; padding: 10px; border-radius: 30px; }
+        .chat-input-area input[type="text"] { flex: 1; border: none; background: transparent; padding: 5px 10px; outline: none; font-size: 1rem; }
+        
+        .btn-action { background: #002855; color: white; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; }
+        .btn-action:hover { background: #cc0000; transform: scale(1.1); }
+
+        .msg-actions { display: flex; gap: 10px; margin-top: 5px; font-size: 0.7rem; opacity: 0.7; }
+        .btn-del { cursor: pointer; color: #ff4757; }
+
+        .footer { color: white; margin-top: 20px; width: 100%; background: rgba(0, 0, 0, 0.8); padding: 10px; font-size: 0.7rem; text-align: center; }
     </style>
-  </head>
-  <body>
-    <div class="chat-container">
-      <div class="chat-header">
-        <i class="fas fa-globe"></i> CHAT GLOBAL - CARTAZISTAS
-      </div>
-      <div id="chat-messages"></div>
-      <div class="chat-input-area">
-        <input
-          type="file"
-          id="fileInput"
-          style="display: none"
-          accept="image/*,application/pdf"
-          onchange="uploadArquivo(this)"
-        />
-        <button
-          type="button"
-          onclick="document.getElementById('fileInput').click()"
-          style="background: #555"
-          class="btn-send"
-        >
-          <i class="fas fa-paperclip"></i>
-        </button>
-        <input
-          type="text"
-          id="messageInput"
-          placeholder="Digite sua mensagem..."
-        />
-        <button onclick="enviarMensagem()" class="btn-send">
-          <i class="fas fa-paper-plane"></i>
-        </button>
-      </div>
+</head>
+<body>
+
+    <header class="header-top">
+        <div class="header-left">
+            <img src="/imagem/LogoApp.png" alt="Logo" class="logo-small">
+            <span class="page-name">Bate-papo</span>
+        </div>
+        
+        <div class="header-right">
+            <span class="user-name" id="userDisplay">Carregando...</span>
+            <a href="/pags/dashboard.html" class="btn-home"><i class="fas fa-home"></i> Home</a>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <div class="content-box">
+            <div class="modulo-title">Chat Global</div>
+            
+            <div id="chat-messages">
+                </div>
+
+            <div class="chat-input-area">
+                <input type="file" id="fileInput" style="display: none" accept="image/*,application/pdf" onchange="uploadArquivo(this)">
+                <button type="button" onclick="document.getElementById('fileInput').click()" class="btn-action" title="Anexar">
+                    <i class="fas fa-paperclip"></i>
+                </button>
+                
+                <input type="text" id="messageInput" placeholder="Digite sua mensagem...">
+                
+                <button onclick="enviarMensagem()" class="btn-action" title="Enviar">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Copyright &copy; 2026 || Criado por Vinicius Viana - Loja 62</p>
     </div>
 
     <script type="module">
@@ -359,5 +287,5 @@
         }
       });
     </script>
-  </body>
+</body>
 </html>
